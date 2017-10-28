@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.template import Context, loader
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseNotFound
 from django.contrib.staticfiles.views import serve
 from config import settings
 
+from django.contrib.staticfiles.storage import staticfiles_storage
+
 import os
-BUILD_DIR = 'draw'
+BUILD_DIR = 'draw' 
 
 #from fancy import wrapper
 
@@ -13,9 +15,11 @@ BUILD_DIR = 'draw'
 
 def index(request):
     path = os.path.join(BUILD_DIR, request.path.lstrip(os.path.sep))
-    if not (os.path.exists(path) and os.path.isfile(path)):
+    if path is '' or not staticfiles_storage.exists(path):
+        #return HttpResponseNotFound(path)
         path = os.path.join(BUILD_DIR, "index.html")
     
+    #return HttpResponseNotFound(path)
     return serve(request, path)
 
 def api(request):
