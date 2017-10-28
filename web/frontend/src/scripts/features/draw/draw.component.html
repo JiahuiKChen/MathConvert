@@ -2,7 +2,7 @@
      class="container-fluid h-100 py-3">
     <h1 class="p-3 m-0 no-select text-center">Draw a Math Symbol!</h1>
     <div id="canvas-container">
-        <math-canvas></math-canvas>
+        <math-canvas (drawn)="onDrawn($event)"></math-canvas>
     </div>
     <div id="output-container" class="p-3">
         <math-output></math-output>
