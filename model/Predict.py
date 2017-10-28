@@ -11,5 +11,3 @@ file_matrix = np.asarray(file)
 file_matrix = file_matrix.reshape(1,1,45,45)
 prediction = model.predict(file_matrix)
 print(prediction)
-
-

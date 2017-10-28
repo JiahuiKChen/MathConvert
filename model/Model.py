@@ -91,22 +91,3 @@ score = model.evaluate(test_data, test_label, verbose=0)
 print(score)
 
 model.save("model3.h5")
-# for filename in os.listdir(os.getcwd() + "\sixes"):
-#     test6 = Image.open("sixes\\" + filename)
-#     test6mat = np.asarray(test6)
-#     print(test6mat.shape)
-#
-#     plt.imshow(test6mat)
-#     plt.show()
-
-# test6 = Image.open("sixes\\test6.jpg")
-# test6mat = np.asarray(test6)
-# test6mat = np.asarray(test6)
-# print(test6mat.shape)
-#
-# test6mat= np.reshape(test6mat, (3, 1200, 1800))
-# print(test6mat.shape)
-# plt.imshow(test6mat)
-# plt.show()
-
-
