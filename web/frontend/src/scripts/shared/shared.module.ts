@@ -5,7 +5,6 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
 import {CardModule} from "./card/card.module";
 import {CheckboxModule} from "./checkbox/checkbox.module";
-import {AnalyticsModule} from "./analytics/analytics.module";
 
 /**
  * This module is dedicated to highly re-usable components that are used often in feature components (pages, etc)
@@ -18,7 +17,6 @@ import {AnalyticsModule} from "./analytics/analytics.module";
         RouterModule,
 
         // Component modules
-        AnalyticsModule,
         CardModule,
         CheckboxModule,
     ],
@@ -33,7 +31,6 @@ import {AnalyticsModule} from "./analytics/analytics.module";
         RouterModule,
 
         // Component modules
-        AnalyticsModule,
         CardModule,
         CheckboxModule,
 

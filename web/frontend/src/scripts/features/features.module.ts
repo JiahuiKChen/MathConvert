@@ -1,5 +1,5 @@
 import {NgModule} from "@angular/core";
-import {VoteModule} from "./vote/vote.module";
+import {DrawModule} from "./draw/draw.module";
 
 /**
  * This module groups together modules and components which are part of larger "features."
@@ -9,7 +9,7 @@ import {VoteModule} from "./vote/vote.module";
     imports: [],
     declarations: [],
     exports: [
-        VoteModule
+        DrawModule
     ],
     providers: [],
 })
