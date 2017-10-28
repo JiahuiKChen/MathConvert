@@ -3,6 +3,7 @@ import {NgModule} from "@angular/core";
 import {DrawComponent} from "./draw.component";
 import {SharedModule} from "../../shared/shared.module";
 import {DrawRoutesModule} from "./draw.routes";
+import {CanvasComponent} from "./canvas/canvas.component";
 
 /**
  * The main voting page.
@@ -10,10 +11,11 @@ import {DrawRoutesModule} from "./draw.routes";
 @NgModule({
     imports: [
         SharedModule,
-        DrawRoutesModule
+        DrawRoutesModule,
     ],
     declarations: [
-        DrawComponent
+        DrawComponent,
+        CanvasComponent
     ],
     exports: [],
     providers: [],
