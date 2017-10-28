@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const outputPath = "../bin";
+const outputPath = "../../server/draw/static/draw";
 
 const config = {
     cache: true,

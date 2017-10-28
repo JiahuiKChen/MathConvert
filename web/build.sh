@@ -1,7 +1,11 @@
 
 cp [model_files] [somewhere in web]
-cp [webpack_bundle] web/server/draw/static/draw/
+
+
 
 cd web
+
+(cd frontend; npm install; npm run build)
+
 python3 server/manage.py collectstatic
 python3 server/manage.py runserver
