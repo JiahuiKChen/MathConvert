@@ -3,6 +3,7 @@ from django.template import Context, loader
 from django.http import HttpResponse, JsonResponse, HttpResponseNotFound
 from django.contrib.staticfiles.views import serve
 from config import settings
+from . import MNISTpredict
 
 from django.contrib.staticfiles.storage import staticfiles_storage
 
@@ -22,12 +23,17 @@ def index(request):
     #return HttpResponseNotFound(path)
     return serve(request, path)
 
+count = 0
+
 def api(request):
     ok = False#True
     result = ""
     try:
-        pass
+        next_name = "im_data_" + count
+        count += 1
         #result = wrapper(data)
+        MNISTpredict.save(request.body, next_name)
+        result = MNISTpredict.evaluate(next_name)
     except:
         ok = False
     
