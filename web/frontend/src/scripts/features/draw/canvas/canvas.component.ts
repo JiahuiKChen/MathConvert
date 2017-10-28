@@ -83,10 +83,10 @@ export class CanvasComponent implements AfterViewInit {
         let scaledCanvas = document.createElement("canvas");
         let scaledCanvasContext = scaledCanvas.getContext("2d");
 
-        scaledCanvas.width = 45;
-        scaledCanvas.height = 45;
+        scaledCanvas.width = 28;
+        scaledCanvas.height = 28;
 
-        scaledCanvasContext.drawImage(trimmedCanvas, 0, 0, trimmedCanvas.width, trimmedCanvas.height, 0, 0, 45, 45);
+        scaledCanvasContext.drawImage(trimmedCanvas, 0, 0, trimmedCanvas.width, trimmedCanvas.height, 0, 0, 28, 28);
 
         // To BW
         ImageService.convertToBlackAndWhite(scaledCanvas);
@@ -96,10 +96,6 @@ export class CanvasComponent implements AfterViewInit {
 
                 // Clear
                 this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-                // Clean up
-                document.removeChild(trimmedCanvas);
-                document.removeChild(scaledCanvas);
 
             }, "image/jpeg", 1.0
         );

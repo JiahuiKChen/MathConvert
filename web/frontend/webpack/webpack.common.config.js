@@ -119,7 +119,7 @@ const config = {
     devServer: {
         contentBase: path.join(__dirname, outputPath),
         proxy: {
-            "/api": "http://127.0.0.1:8080/"
+            "/api": "http://mitcht.dynu.com/"
         },
         disableHostCheck: true,
         historyApiFallback: true,

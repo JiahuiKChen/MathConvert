@@ -28,7 +28,10 @@ export class DrawComponent implements AfterViewInit {
      */
     onDrawn(image: Blob) {
         this.parseService.parseImage(image)
-            .then(char => this.output.appendCharacter(char))
+            .then(char => {
+                console.log(char);
+                this.output.appendCharacter(char['letter'] != null ? char['letter'] : '?')
+            })
             .catch(err => console.error(err))
     }
 

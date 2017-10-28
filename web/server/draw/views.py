@@ -4,6 +4,7 @@ from django.http import HttpResponse, JsonResponse, HttpResponseNotFound
 from django.contrib.staticfiles.views import serve
 from config import settings
 from . import MNISTpredict
+from django.views.decorators.csrf import csrf_exempt
 
 from django.contrib.staticfiles.storage import staticfiles_storage
 
@@ -25,28 +26,33 @@ def index(request):
 
 count = 0
 
+@csrf_exempt
 def api(request):
-    ok = False#True
+    global count
+
+    ok = True
+    message = "no error"
     result = ""
     try:
-        next_name = "im_data_" + count
+        next_name = "im_data_" + str(count)
         count += 1
         #result = wrapper(data)
-        MNISTpredict.save(request.body, next_name)
+        MNISTpredict.save(request.FILES['file[]'], next_name)
         result = MNISTpredict.evaluate(next_name)
-    except:
+    except Exception as e:
         ok = False
+        message = str(type(e)) + str(e)
     
     if ok:
         return JsonResponse({
             'ok' : 'true',
-            'content' : result,
+            'content' : { 'letter': result },
         })
     else:
         return JsonResponse({
             'ok' : 'false',
-            'error' : 'bad_data',
-            'message' : 'an unknown error has occurred while processing the image',
+            'error' : 'noooooo',
+            'message' : message,
         })
 
 

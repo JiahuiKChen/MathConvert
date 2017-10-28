@@ -30,6 +30,7 @@ export class APIService {
      * @param response The Response from the server.
      */
     private static handleResponse(response: Response) {
+        console.log(response)
         let body: APIResponse = JSON.parse(response.text());
         if (body.ok === true)
             return body.content;
@@ -64,7 +65,6 @@ export class APIService {
 
     public postImage(path: string, data: any): Promise<any> {
         let options = new RequestOptions({headers: new Headers({
-            'Content-Type': 'multipart/form-data',
             'Accept': 'application/json',
             'X-Requested-With': 'XMLHttpRequest'
         })});
