@@ -33,7 +33,7 @@ for index in range(0, len(folders)):
     count = 0
     for filename in os.listdir(os.getcwd() + "/data/dev_images" + "/" + folder):
         count += 1
-        if count > 5000:
+        if count > 2000:
             break
 
         file = Image.open(os.getcwd() + "/data/dev_images" + "/" + folder + "/" + filename)
@@ -54,8 +54,8 @@ train_label = np.array(train_label)
 # test_data = np_utils.to_categorical(test_data, 10)
 
 #adding in depth param for model architecture
-test_data = test_data.reshape(test_data.shape[0], 1, 45, 45)
-train_data = train_data.reshape(train_data.shape[0], 1, 45, 45)
+test_data = test_data.reshape(test_data.shape[0],1,45, 45)
+train_data = train_data.reshape(train_data.shape[0],1,45, 45)
 
 #Sequential model
 model = Sequential()
