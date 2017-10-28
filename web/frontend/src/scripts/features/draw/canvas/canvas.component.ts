@@ -1,11 +1,18 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
+import {ImageService} from "../../../core/services/image.service";
+import {Subscription} from "rxjs/Subscription";
+import {Observable} from "rxjs/Observable";
 
 @Component({
     selector: 'math-canvas',
-    templateUrl: 'canvas.component.html'
+    templateUrl: 'canvas.component.html',
+    styleUrls: ['canvas.component.css']
 })
 
 export class CanvasComponent implements AfterViewInit {
+
+    @Output()
+    public drawn = new EventEmitter<any>();
 
     /**
      * The canvas element reference.
@@ -36,6 +43,11 @@ export class CanvasComponent implements AfterViewInit {
      */
     private drawConfig = {x: 0, y: 0, draw: false};
 
+    /**
+     * The subscription to the emit timer which will emit the image after a period of inactivity.
+     */
+    private emitTimer: Subscription;
+
     ngAfterViewInit(): void {
         this.canvas = this.canvasRef.nativeElement;
         this.canvasContext = this.canvas.getContext("2d");
@@ -50,6 +62,47 @@ export class CanvasComponent implements AfterViewInit {
         this.canvasContext.lineJoin = "round";
         this.canvasContext.lineCap = "round";
         this.canvasContext.strokeStyle = "#00CC99";
+    }
+
+    /**
+     * Emits the drawn image, and clears the canvas once emitted.
+     */
+    private emitImage(): void {
+        let trimmedImageData = ImageService.getTrimmedCanvasImageData(this.canvas);
+
+        // Create a new temporary canvas for the trimmed data.
+        let trimmedCanvas = document.createElement("canvas");
+        let trimmedCanvasContext = trimmedCanvas.getContext("2d");
+
+        trimmedCanvas.width = trimmedImageData.width;
+        trimmedCanvas.height = trimmedImageData.height;
+
+        trimmedCanvasContext.putImageData(trimmedImageData, 0, 0);
+
+        // Scale the image
+        let scaledCanvas = document.createElement("canvas");
+        let scaledCanvasContext = scaledCanvas.getContext("2d");
+
+        scaledCanvas.width = 45;
+        scaledCanvas.height = 45;
+
+        scaledCanvasContext.drawImage(trimmedCanvas, 0, 0, trimmedCanvas.width, trimmedCanvas.height, 0, 0, 45, 45);
+
+        // To Greyscale
+        ImageService.convertToGreyscale(this.canvas);
+
+        trimmedCanvas.toBlob(img => {
+                this.drawn.emit(img);
+
+                // Clear
+                this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+                // Clean up
+                document.removeChild(trimmedCanvas);
+                document.removeChild(scaledCanvas);
+
+            }, "image/jpeg", 1.0
+        );
     }
 
     /**
@@ -78,6 +131,12 @@ export class CanvasComponent implements AfterViewInit {
     startDrawing() {
         this.drawConfig.draw = true;
 
+        // Stop timer
+        if (this.emitTimer != null) {
+            this.emitTimer.unsubscribe();
+            this.emitTimer = null;
+        }
+
         // Start a path.
         this.canvasContext.moveTo(this.drawConfig.x, this.drawConfig.y);
         this.canvasContext.beginPath();
@@ -89,6 +148,11 @@ export class CanvasComponent implements AfterViewInit {
     endDrawing() {
         this.drawConfig.draw = false;
 
+        // Start timer
+        this.emitTimer = Observable.timer(500).subscribe(
+            () => this.emitImage()
+        );
+
         // End the path.
         this.canvasContext.closePath();
     }
@@ -98,7 +162,7 @@ export class CanvasComponent implements AfterViewInit {
      */
     private drawStroke() {
         // Draw if left mouse button is down.
-        if(this.drawConfig.draw) {
+        if (this.drawConfig.draw) {
             this.canvasContext.lineTo(this.drawConfig.x, this.drawConfig.y);
             this.canvasContext.stroke();
         }
