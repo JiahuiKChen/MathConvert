@@ -4,6 +4,7 @@ import {DrawComponent} from "./draw.component";
 import {SharedModule} from "../../shared/shared.module";
 import {DrawRoutesModule} from "./draw.routes";
 import {CanvasComponent} from "./canvas/canvas.component";
+import {OutputComponent} from "./output/output.component";
 
 /**
  * The main voting page.
@@ -15,7 +16,8 @@ import {CanvasComponent} from "./canvas/canvas.component";
     ],
     declarations: [
         DrawComponent,
-        CanvasComponent
+        CanvasComponent,
+        OutputComponent
     ],
     exports: [],
     providers: [],
