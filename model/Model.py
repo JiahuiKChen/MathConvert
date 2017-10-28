@@ -11,7 +11,7 @@ K.set_image_dim_ordering('th')
 from keras.utils import np_utils
 from keras.models import save_model
 
-folders = os.listdir(os.getcwd() + "\data\extracted_images")
+folders = os.listdir(os.getcwd() + "/data/dev_images")
 test_label = []
 test_data = []
 train_label = []
@@ -31,12 +31,12 @@ for index in range(0, len(folders)):
     folder = folders[index]
     print(folder)
     count = 0
-    for filename in os.listdir(os.getcwd() + "\data\extracted_images" + "\\" + folder):
+    for filename in os.listdir(os.getcwd() + "/data/dev_images" + "/" + folder):
         count += 1
         if count > 5000:
             break
 
-        file = Image.open(os.getcwd() + "\data\extracted_images" + "\\" + folder + "\\" + filename)
+        file = Image.open(os.getcwd() + "/data/dev_images" + "/" + folder + "/" + filename)
         file_matrix = np.asarray(file)
         if randint(1, 100) <= 10:
             test_data.append(file_matrix)
@@ -84,10 +84,10 @@ model.compile(loss='categorical_crossentropy', optimizer='adam',
               metrics=['accuracy'])
 
 #fitting training data
-model.fit(train_data, train_label, batch_size=32, nb_epoch=10, verbose=1)
+model.fit(train_data, train_label, batch_size=32, nb_epoch=5, verbose=1, shuffle=True)
 #test data evaluation
 score = model.evaluate(test_data, test_label, verbose=0)
 
 print(score)
 
-model.save("model3.h5")
+model.save("model3epoch5")
