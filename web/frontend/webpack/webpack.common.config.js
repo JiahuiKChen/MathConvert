@@ -96,7 +96,7 @@ const config = {
     },
 
     output: {
-        path: path.join(__dirname, '../target/classes/static/'),
+        path: path.join(__dirname, '../bin/'),
         filename: './resources/scripts/[name]-[chunkhash].js',
         chunkFilename: './resources/scripts/[name]-[chunkhash].js',
         sourceMapFilename: './resources/scripts/[name]-[chunkhash].map'
