@@ -1,6 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 
+const outputPath = "../bin";
+
 const config = {
     cache: true,
 
@@ -96,7 +98,7 @@ const config = {
     },
 
     output: {
-        path: path.join(__dirname, '../bin/'),
+        path: path.join(__dirname, outputPath),
         filename: './resources/scripts/[name]-[chunkhash].js',
         chunkFilename: './resources/scripts/[name]-[chunkhash].js',
         sourceMapFilename: './resources/scripts/[name]-[chunkhash].map'
@@ -115,7 +117,7 @@ const config = {
     },
 
     devServer: {
-        contentBase: path.join(__dirname, "../target/classes/static/"),
+        contentBase: path.join(__dirname, outputPath),
         proxy: {
             "/api": "http://127.0.0.1:8080/"
         },
