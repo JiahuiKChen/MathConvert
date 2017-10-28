@@ -1,15 +1,7 @@
-.math-app::before {
-    background: url('../../resources/images/background.png') repeat;
-
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-
-    position: absolute;
-    content: "";
-}
 .math-app {
     height: 100vh;
+
+    background-color: #00b3ee;
 }
 
 /* Add pointer cursor to links without href, which Angular uses a lot of. (Because of the click event) */

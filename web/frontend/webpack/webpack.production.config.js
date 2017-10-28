@@ -23,7 +23,7 @@ config.plugins.push(
     new HtmlWebpackPlugin({
         template: path.join(__dirname, '../src/index.html.ejs'),
         favicon: path.join(__dirname, '../src/resources/favicons/favicon.ico'),
-        filename: path.join(__dirname, '../bin/index.html'),
+        filename: path.join(config.output.path, 'index.html'),
         inject: 'body',
         minify: {
             minifyCSS: true,
