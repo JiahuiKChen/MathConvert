@@ -26,32 +26,35 @@ def makeBinaryList(index, length):
             list.append(0)
     return list
 
-
+listOfImagesAndLabels = []
 for index in range(0, len(folders)):
     folder = folders[index]
     print(folder)
     count = 0
     for filename in os.listdir(os.getcwd() + "/data/dev_images" + "/" + folder):
         count += 1
-        if count > 2000:
+        if count > 5000:
             break
-
         file = Image.open(os.getcwd() + "/data/dev_images" + "/" + folder + "/" + filename)
         file_matrix = np.asarray(file)
         if randint(1, 100) <= 10:
             test_data.append(file_matrix)
             test_label.append(makeBinaryList(index, len(folders)))
         else:
-            train_data.append(file_matrix)
-            train_label.append(makeBinaryList(index, len(folders)))
+            #train_data.append(file_matrix)
+            #train_label.append(makeBinaryList(index, len(folders)))
+            imageTuple = (file_matrix, makeBinaryList(index, len(folders)))
+            listOfImagesAndLabels.append(imageTuple)
+#shuffle the training data
+shuffle(listOfImagesAndLabels)
+for tuple in listOfImagesAndLabels:
+    train_data.append(tuple[0])
+    train_label.append(tuple[1])
 
 test_label =  np.array(test_label)
 test_data = np.array(test_data)
 train_data = np.array(train_data)
 train_label = np.array(train_label)
-
-# test_label = np_utils.to_categorical(test_label, 10)
-# test_data = np_utils.to_categorical(test_data, 10)
 
 #adding in depth param for model architecture
 test_data = test_data.reshape(test_data.shape[0],1,45, 45)
@@ -90,4 +93,4 @@ score = model.evaluate(test_data, test_label, verbose=0)
 
 print(score)
 
-model.save("model3epoch5")
+model.save("kaggledatamodel3")
