@@ -88,10 +88,10 @@ export class CanvasComponent implements AfterViewInit {
 
         scaledCanvasContext.drawImage(trimmedCanvas, 0, 0, trimmedCanvas.width, trimmedCanvas.height, 0, 0, 45, 45);
 
-        // To Greyscale
-        ImageService.convertToGreyscale(this.canvas);
+        // To BW
+        ImageService.convertToBlackAndWhite(scaledCanvas);
 
-        trimmedCanvas.toBlob(img => {
+        scaledCanvas.toBlob(img => {
                 this.drawn.emit(img);
 
                 // Clear
