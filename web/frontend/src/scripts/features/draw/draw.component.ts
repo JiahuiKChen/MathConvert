@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from "@angular/core";
 import {OutputComponent} from "./output/output.component";
 import {CanvasComponent} from "./canvas/canvas.component";
+import {ParseService} from "../../core/services/parse.service";
 
 @Component({
     selector: 'math-draw',
@@ -15,6 +16,10 @@ export class DrawComponent implements AfterViewInit {
     @ViewChild(OutputComponent)
     private output: OutputComponent;
 
+    constructor(private parseService: ParseService) {
+
+    }
+
     ngAfterViewInit(): void {
     }
 
@@ -22,7 +27,9 @@ export class DrawComponent implements AfterViewInit {
      * Called when an image is drawn.
      */
     onDrawn(image: Blob) {
-        this.output.appendCharacter("ha");
+        this.parseService.parseImage(image)
+            .then(char => this.output.appendCharacter(char))
+            .catch(err => console.error(err))
     }
 
 }

@@ -62,6 +62,20 @@ export class APIService {
             .toPromise().then(APIService.handleResponse).catch(APIService.handleResponse)
     }
 
+    public postImage(path: string, data: any): Promise<any> {
+        let options = new RequestOptions({headers: new Headers({
+            'Content-Type': 'multipart/form-data',
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        })});
+
+        let formData = new FormData();
+        formData.append('file[]', data);
+
+        return this.http.post(`${this.apiUrl}${APIService.removeTrailingSlash(path)}`, formData, options)
+            .toPromise().then(APIService.handleResponse).catch(APIService.handleResponse)
+    }
+
     public put(path: string, data: any): Promise<any> {
         let options = new RequestOptions({headers: this.headers});
 

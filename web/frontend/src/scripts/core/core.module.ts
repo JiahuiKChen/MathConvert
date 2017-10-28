@@ -3,6 +3,8 @@ import {APIService} from "./services/api.service";
 import {LoaderService} from "./services/loader.service";
 import {CustomErrorHandler} from "./error-handler";
 import {HttpModule} from "@angular/http";
+import {ImageService} from "./services/image.service";
+import {ParseService} from "./services/parse.service";
 
 /**
  * This module contains the service and other things which should only load once in the application.
@@ -19,7 +21,9 @@ import {HttpModule} from "@angular/http";
             useClass: CustomErrorHandler
         },
         APIService,
-        LoaderService
+        LoaderService,
+        ImageService,
+        ParseService
     ],
 })
 export class CoreModule {
