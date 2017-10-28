@@ -30,14 +30,11 @@ export class CanvasComponent implements AfterViewInit {
     private canvasContext: CanvasRenderingContext2D;
 
     /**
-     * The current position of the mouse on the canvas.
+     * Contains current configuration for drawing, including:
+     * - The x and y position to draw at.
+     * - A flag that determines if drawing is turned on.
      */
-    private mousePos = {x: 0, y: 0};
-
-    /**
-     * Flag for whether the left mouse button is up or down.
-     */
-    private mouseDown = false;
+    private drawConfig = {x: 0, y: 0, draw: false};
 
     ngAfterViewInit(): void {
         this.canvas = this.canvasRef.nativeElement;
@@ -59,34 +56,51 @@ export class CanvasComponent implements AfterViewInit {
      * Called when the mouse is moved over the canvas.
      */
     onMouseMove(e: MouseEvent) {
-        this.mousePos.x = e.x - this.canvasContainer.nativeElement.offsetLeft;
-        this.mousePos.y = e.y - this.canvasContainer.nativeElement.offsetTop;
+        this.drawConfig.x = e.x - this.canvasContainer.nativeElement.offsetLeft;
+        this.drawConfig.y = e.y - this.canvasContainer.nativeElement.offsetTop;
 
-        // Draw if left mouse button is down.
-        if(this.mouseDown) {
-            this.canvasContext.lineTo(this.mousePos.x, this.mousePos.y);
-            this.canvasContext.stroke();
-        }
+        this.drawStroke();
     }
 
     /**
-     * Called when the left mouse button is held down.
+     * Called when a touch is moved over the canvas.
      */
-    onMouseDown(e: MouseEvent) {
-        this.mouseDown = true;
+    onTouchMove(e: TouchEvent) {
+        this.drawConfig.x = e.touches[0].clientX - this.canvasContainer.nativeElement.offsetLeft;
+        this.drawConfig.y = e.touches[0].clientY - this.canvasContainer.nativeElement.offsetTop;
+
+        this.drawStroke();
+    }
+
+    /**
+     * Call when drawing should start.
+     */
+    startDrawing() {
+        this.drawConfig.draw = true;
 
         // Start a path.
-        this.canvasContext.moveTo(this.mousePos.x, this.mousePos.y);
+        this.canvasContext.moveTo(this.drawConfig.x, this.drawConfig.y);
         this.canvasContext.beginPath();
     }
 
     /**
-     * Called when the left mouse button is released.
+     * Call when drawing should end.
      */
-    onMouseUp(e: MouseEvent) {
-        this.mouseDown = false;
+    endDrawing() {
+        this.drawConfig.draw = false;
 
         // End the path.
         this.canvasContext.closePath();
+    }
+
+    /**
+     * Draws a stroke on the screen if the mouse is currently down.
+     */
+    private drawStroke() {
+        // Draw if left mouse button is down.
+        if(this.drawConfig.draw) {
+            this.canvasContext.lineTo(this.drawConfig.x, this.drawConfig.y);
+            this.canvasContext.stroke();
+        }
     }
 }

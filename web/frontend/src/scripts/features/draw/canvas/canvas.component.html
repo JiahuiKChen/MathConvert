@@ -2,7 +2,10 @@
      class="w-100 h-100">
     <canvas #canvas
             (mousemove)="onMouseMove($event)"
-            (mousedown)="onMouseDown($event)"
-            (mouseup)="onMouseUp($event)">
+            (touchmove)="onTouchMove($event)"
+            (mousedown)="startDrawing()"
+            (touchstart)="startDrawing()"
+            (mouseup)="endDrawing()"
+            (touchend)="endDrawing()">
     </canvas>
 </div>
