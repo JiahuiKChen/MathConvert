@@ -3,12 +3,12 @@ import {RouterModule, Routes} from "@angular/router";
 
 const routes: Routes = [
     {
-        path: '',
-        loadChildren: './features/vote/vote.module#VoteModule'
+        path: 'draw',
+        loadChildren: './features/draw/draw.module#DrawModule'
     },
     {
         path: '**',
-        redirectTo: '',
+        redirectTo: 'draw',
         pathMatch: 'full'
     }
 ];
