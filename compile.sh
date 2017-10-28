@@ -1,4 +1,3 @@
-cd web/frontend
-npm i
-npm run build
-cd ../..
+(cd web/frontend; npm i; npm run build)
+python web/server/manage.py collectstatic
+
