@@ -46,9 +46,9 @@ model.compile(loss='categorical_crossentropy',
 
 # 9. Fit model on training data
 model.fit(X_train, Y_train,
-          batch_size=32, nb_epoch=5, verbose=1)
+          batch_size=32, nb_epoch=20, verbose=1)
 
 # 10. Evaluate model on test data
 score = model.evaluate(X_test, Y_test, verbose=0)
 
-model.save("MNIST model")
+model.save("model")
