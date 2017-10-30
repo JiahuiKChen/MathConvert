@@ -17,11 +17,9 @@ BUILD_DIR = 'draw'
 
 def index(request):
     path = os.path.join(BUILD_DIR, request.path.lstrip(os.path.sep))
-    if path is '' or not staticfiles_storage.exists(path):
-        #return HttpResponseNotFound(path)
+    if path is 'draw' or not staticfiles_storage.exists(path):
         path = os.path.join(BUILD_DIR, "index.html")
     
-    #return HttpResponseNotFound(path)
     return serve(request, path)
 
 count = 0
@@ -34,9 +32,8 @@ def api(request):
     message = "no error"
     result = ""
     try:
-        next_name = "im_data_" + str(count)
+        next_name = "image_" + str(count)
         count += 1
-        #result = wrapper(data)
         MNISTpredict.save(request.FILES['file[]'], next_name)
         result = MNISTpredict.evaluate(next_name)
     except Exception as e:
@@ -45,12 +42,12 @@ def api(request):
     
     if ok:
         return JsonResponse({
-            'ok' : 'true',
+            'ok' : True,
             'content' : { 'letter': result },
         })
     else:
         return JsonResponse({
-            'ok' : 'false',
+            'ok' : False,
             'error' : 'noooooo',
             'message' : message,
         })

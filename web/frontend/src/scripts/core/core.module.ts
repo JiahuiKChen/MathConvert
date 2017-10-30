@@ -3,7 +3,7 @@ import {APIService} from "./services/api.service";
 import {LoaderService} from "./services/loader.service";
 import {CustomErrorHandler} from "./error-handler";
 import {HttpModule} from "@angular/http";
-import {ImageService} from "./services/image.service";
+import {CanvasService} from "./services/canvas.service";
 import {ParseService} from "./services/parse.service";
 
 /**
@@ -22,7 +22,7 @@ import {ParseService} from "./services/parse.service";
         },
         APIService,
         LoaderService,
-        ImageService,
+        CanvasService,
         ParseService
     ],
 })

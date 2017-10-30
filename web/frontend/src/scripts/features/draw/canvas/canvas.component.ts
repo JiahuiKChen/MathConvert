@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
-import {ImageService} from "../../../core/services/image.service";
+import {CanvasService} from "../../../core/services/canvas.service";
 import {Subscription} from "rxjs/Subscription";
 import {Observable} from "rxjs/Observable";
 
@@ -65,40 +65,37 @@ export class CanvasComponent implements AfterViewInit {
     }
 
     /**
-     * Emits the drawn image, and clears the canvas once emitted.
+     * Emits the drawn image as processed for , and clears the canvas once emitted.
      */
     private emitImage(): void {
-        let trimmedImageData = ImageService.getTrimmedCanvasImageData(this.canvas);
-
-        // Create a new temporary canvas for the trimmed data.
-        let trimmedCanvas = document.createElement("canvas");
-        let trimmedCanvasContext = trimmedCanvas.getContext("2d");
-
-        trimmedCanvas.width = trimmedImageData.width;
-        trimmedCanvas.height = trimmedImageData.height;
-
-        trimmedCanvasContext.putImageData(trimmedImageData, 0, 0);
-
-        // Scale the image
-        let scaledCanvas = document.createElement("canvas");
-        let scaledCanvasContext = scaledCanvas.getContext("2d");
-
-        scaledCanvas.width = 28;
-        scaledCanvas.height = 28;
-
-        scaledCanvasContext.drawImage(trimmedCanvas, 0, 0, trimmedCanvas.width, trimmedCanvas.height, 0, 0, 28, 28);
-
-        // To BW
-        ImageService.convertToBlackAndWhite(scaledCanvas);
-
-        scaledCanvas.toBlob(img => {
-                this.drawn.emit(img);
-
+        this.convertCanvasToProcessedImage()
+            .then(image => {
                 // Clear
                 this.canvasContext.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-            }, "image/jpeg", 1.0
-        );
+                // Send image to listeners.
+                this.drawn.emit(image);
+            })
+    }
+
+    /**
+     * Converts the current contents of the canvas element to an image that is prepared for analysis by the server.
+     * @returns {Promise<Blob>} A Promise that will emit the PNG blob when complete.
+     */
+    private convertCanvasToProcessedImage(): Promise<Blob> {
+        return new Promise<Blob>(resolve => {
+            // Crop the canvas
+            let croppedCanvas = CanvasService.createCroppedCanvas(this.canvas);
+
+            // Scale the canvas
+            let scaledCanvas = CanvasService.createScaledCanvas(croppedCanvas, 28, 3);
+
+            // Make the canvas black and white
+            CanvasService.convertCanvasToWhiteOnBlack(scaledCanvas);
+
+            // Convert the canvas to a PNG blob.
+            scaledCanvas.toBlob(result => resolve(result), "image/png");
+        })
     }
 
     /**

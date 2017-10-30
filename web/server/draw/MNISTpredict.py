@@ -5,14 +5,14 @@ import os
 from resizeimage import resizeimage
 
 def save(bytestream, filename):
-    with open(filename, 'wb') as dest:
+    with open(os.path.join("images", filename), 'wb') as dest:
         for chunk in bytestream.chunks():
             dest.write(chunk)
 
 def evaluate(file):
-    model = load_model(os.path.join(os.getcwd(), "themodel"))
+    model = load_model(os.path.join("model"))
 
-    file = Image.open(os.path.join(os.getcwd(), file))
+    file = Image.open(os.path.join("images", file))
 
     file = file.convert('1')
 
