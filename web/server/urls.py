@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.views.static import serve
+from config import settings
 
 from draw import views
 
 urlpatterns = [
     url(r'^api/', views.api),
-    url(r'^(?P<path>.*)$', serve)
+    url(r'^$', serve, kwargs={'path': 'index.html', 'document_root': settings.STATIC_ROOT}),
+    url(r'^(?P<path>.+)$', serve, kwargs={'document_root': settings.STATIC_ROOT})
 ]
