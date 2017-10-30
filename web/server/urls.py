@@ -21,6 +21,6 @@ from draw import views
 
 urlpatterns = [
     url(r'^api/', views.api),
-    url(r'^resources/(?P<path>.+)$', serve, kwargs={'document_root': settings.STATIC_ROOT}),
+    url(r'^(?P<path>resources/.+)$', serve, kwargs={'document_root': settings.STATIC_ROOT}),
     url(r'^', serve, kwargs={'path': 'index.html', 'document_root': settings.STATIC_ROOT})
 ]
