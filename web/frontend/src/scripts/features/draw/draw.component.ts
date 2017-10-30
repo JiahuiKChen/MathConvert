@@ -33,7 +33,6 @@ export class DrawComponent implements AfterViewInit {
         this.parseService.parseImage(image)
             .then(char => {
                 this.loaderService.stopLoading();
-                console.log(char);
                 this.output.appendCharacter(char['letter'] != null ? char['letter'] : '?')
             })
             .catch(err => {

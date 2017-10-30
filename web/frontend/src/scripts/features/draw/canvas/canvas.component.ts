@@ -50,14 +50,22 @@ export class CanvasComponent implements AfterViewInit {
 
     ngAfterViewInit(): void {
         this.canvas = this.canvasRef.nativeElement;
-        this.canvasContext = this.canvas.getContext("2d");
+        this.reconfigureCanvas();
 
-        // Size of canvas
+        // Resize the canvas whenever the window size changes
+        $(window).on('resize', () => this.reconfigureCanvas());
+    }
+
+    /**
+     * Configures the canvas based on the window size.
+     */
+    private reconfigureCanvas() {
         let computedSize = getComputedStyle(this.canvasContainer.nativeElement);
         this.canvas.width = parseInt(computedSize.width);
         this.canvas.height = parseInt(computedSize.height);
 
         // Canvas context (drawing) settings
+        this.canvasContext = this.canvas.getContext("2d");
         this.canvasContext.lineWidth = 35;
         this.canvasContext.lineJoin = "round";
         this.canvasContext.lineCap = "round";

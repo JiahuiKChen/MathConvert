@@ -30,7 +30,6 @@ export class APIService {
      * @param response The Response from the server.
      */
     private static handleResponse(response: Response) {
-        console.log(response)
         let body: APIResponse = JSON.parse(response.text());
         if (body.ok === true)
             return body.content;
