@@ -21,6 +21,6 @@ from draw import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/', views.api),
-    url(r'^(?:index.html)?$', 'serve', kwargs={'path': 'index.html'}),
+    url(r'^(?:index.html)?$', 'django.contrib.staticfiles.views.serve', kwargs={'path': 'index.html'}),
     url(r'^', views.index),
 ]
