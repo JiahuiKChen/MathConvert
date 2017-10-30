@@ -20,5 +20,5 @@ from draw import views
 
 urlpatterns = [
     url(r'^api/', views.api),
-    url(r'^', serve)
+    url(r'^(?P<path>.*)$', serve)
 ]
