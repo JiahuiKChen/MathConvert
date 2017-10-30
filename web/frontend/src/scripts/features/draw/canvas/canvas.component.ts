@@ -58,7 +58,7 @@ export class CanvasComponent implements AfterViewInit {
         this.canvas.height = parseInt(computedSize.height);
 
         // Canvas context (drawing) settings
-        this.canvasContext.lineWidth = 10;
+        this.canvasContext.lineWidth = 20;
         this.canvasContext.lineJoin = "round";
         this.canvasContext.lineCap = "round";
         this.canvasContext.strokeStyle = "#00CC99";
