@@ -1,1 +1,1 @@
-python web/server/manage.py runserver 0.0.0.0:8000
+(cd web/server; python manage.py runserver 0.0.0.0:8000)
