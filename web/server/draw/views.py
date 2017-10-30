@@ -32,7 +32,7 @@ def api(request):
     message = "no error"
     result = ""
     try:
-        next_name = "image_" + str(count)
+        next_name = "image_" + str(count) + ".png"
         count += 1
         MNISTpredict.save(request.FILES['file[]'], next_name)
         result = MNISTpredict.evaluate(next_name)
