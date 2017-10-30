@@ -44,7 +44,6 @@ export class CanvasService {
     }
 
 
-
     /**
      * Trims the given Canvas to the edges of its contents, where contents are defined as any non-transparent pixel.
      * The canvas is not modified; instead, its trimmed image data is returned.
@@ -108,16 +107,12 @@ export class CanvasService {
 
         // Scan over groups of 4 pixels (r g b a)
         for (let i = 0, n = pixels.length; i < n; i += 4) {
-            if (pixels[i + 3] < 255) { // Partially Transparent: Fully Black
-                pixels[i] = 0;
-                pixels[i + 1] = 0;
-                pixels[i + 2] = 0;
-            } else { // Not Transparent: Fully White
-                pixels[i] = 255;
-                pixels[i + 1] = 255;
-                pixels[i + 2] = 255;
-            }
-
+            // The intensity of RGB is determined by the transparency.
+            // Fully transparent = fully black; Fully opaque = fully white.
+            let intensity = pixels[i + 3];
+            pixels[i] = intensity;
+            pixels[i + 1] = intensity;
+            pixels[i + 2] = intensity;
             pixels[i + 3] = 255;
         }
 
